@@ -22,19 +22,6 @@
 local sp = game.SinglePlayer()
 
 --[[
-Hook: PlayerFootstep
-Function: Weapon Logic
-Used For: Walk Cycle
-]]
-hook.Add("PlayerFootstep", "TFAWalkcycle", function(plyv)
-	if sp and SERVER then
-		BroadcastLua("Entity(" .. plyv:EntIndex() .. ").lastFootstep = " .. CurTime())
-	elseif IsValid(plyv) then
-		plyv.lastFootstep = CurTime()
-	end
-end)
-
---[[
 Hook: PlayerPostThink
 Function: Weapon Logic
 Used For: Main weapon "think" logic
