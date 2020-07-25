@@ -688,63 +688,7 @@ function SWEP:GenerateInspectionDerma()
 				surface.DrawRect(0, 0, 5, h)
 			end
 		end
-
-		--[[
-
-			myself.PrimaryColor = ColorAlpha(INSPECTION_PRIMARYCOLOR, TFA_INSPECTIONPANEL.Alpha)
-			myself.SecondaryColor = ColorAlpha(INSPECTION_SECONDARYCOLOR, TFA_INSPECTIONPANEL.Alpha)
-			myself.BackgroundColor = ColorAlpha(INSPECTION_BACKGROUND, TFA_INSPECTIONPANEL.Alpha)
-			myself.ActiveColor = ColorAlpha(INSPECTION_ACTIVECOLOR, TFA_INSPECTIONPANEL.Alpha)
-	]]
-		--
-		self:GenerateVGUIAttachmentTable()
-		local i = 0
-		local prevCat
-		local lineY = 0
-		local scrollWide = scrollpanel:GetWide()
-		local lastTooltipPanel
-
-		local iconsize = math.Round(TFA.ScaleH(TFA.Attachments.IconSize))
-		local catspacing = math.Round(TFA.ScaleH(TFA.Attachments.CategorySpacing))
-		local padding = math.Round(TFA.ScaleH(TFA.Attachments.UIPadding))
-
-		for k, v in pairs(self.VGUIAttachments) do
-			if k ~= "BaseClass" then
-				if prevCat then
-					local isContinuing = prevCat == (v.cat or k)
-					lineY = lineY + (isContinuing and iconsize + padding or catspacing)
-
-					if not isContinuing then
-						lastTooltipPanel = nil
-					end
-				end
-
-				prevCat = v.cat or k
-				local testpanel = TFA_INSPECTIONPANEL:Add("TFAAttachmentPanel")
-				testpanel:SetParent(scrollpanel)
-				testpanel:SetContentPanel(scrollpanel)
-				i = i + 1
-				testpanel:SetWeapon(self)
-				testpanel:SetAttachment(k)
-				testpanel:SetCategory(v.cat or k)
-				testpanel:Initialize()
-				lastTooltipPanel = lastTooltipPanel or testpanel:InitializeTooltip()
-				testpanel:SetupTooltip(lastTooltipPanel)
-				testpanel:PopulateIcons()
-				testpanel:SetPos(scrollWide - testpanel:GetWide() - 32, lineY)
-			end
-		end
 	end
-	--[[
-	testpanel:SetSize(128+4*2, spacing)
-	testpanel:SetPos( ScrW() / 2, ScrH() / 2 )
-	testpanel.Paint = function(myself,w,h)
-		draw.NoTexture()
-		surface.SetDrawColor(color_white)
-		surface.DrawRect(0,0,w,h)
-	end
-	]]
-	--
 end
 
 function SWEP:DoInspectionDerma()
