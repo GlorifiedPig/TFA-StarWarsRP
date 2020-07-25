@@ -1,0 +1,20 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" 		"models/weapons/hdshells/shotgunshell"
+	"$phongexponenttexture" "models/weapons/hdshells/shotgunshell_exponent"
+	"$bumpmap" 		"models/weapons/hdshells/shotgunshell_normal"
+	"$envmap"		"env_cubemap"
+
+	"$normalmapalphaenvmapmask" 	"1"
+	
+	"$envmaptint"		"[0.01 0.01 0.01]"
+	
+	"$phong" 		"1"
+	"$phongboost"		"1"
+	"$phongfresnelranges"	"[1 4 7]"
+	"$phongalbedotint" 	"1"
+	"$halflambert" 		"1"
+}
+	
+//Soldier11 created these shaders. You may not re-use them without his permission!
+	
