@@ -265,7 +265,7 @@ function TFA.Ballistics:FireBullets(wep, b, angIn, bulletOverride)
 			net.Start(TFA.Ballistics.BulletCreationNetString)
 			net.WriteEntity(wep)
 
-			net.WriteTable({
+			net.WriteLargeString( util.TableToJSON( {
 				["Damage"] = b.Damage,
 				["Force"] = b.Force,
 				["Num"] = b.Num,
@@ -277,7 +277,7 @@ function TFA.Ballistics:FireBullets(wep, b, angIn, bulletOverride)
 				["CustomPosition"] = struct.customPosition,
 				["Model"] = struct.model,
 				["Velocity"] = vel
-			})
+			} ))
 
 			net.WriteAngle(ang)
 
@@ -304,7 +304,7 @@ if CLIENT then
 		if game.SinglePlayer() or cv_receive:GetBool() then
 			local wep, b, ang
 			wep = net.ReadEntity()
-			b = net.ReadTable()
+			b = util.JSONToTable( net.ReadLargeString() )
 			ang = net.ReadAngle()
 			if not wep then return end
 			if not b then return end
