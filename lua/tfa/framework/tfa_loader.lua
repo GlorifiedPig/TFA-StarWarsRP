@@ -24,50 +24,12 @@ if SERVER then AddCSLuaFile() end
 TFA = TFA or {}
 
 local do_load = true
-local version = 4.571
-local version_string = "4.5.7.1"
-local changelog = [[
-	+ Added localization support. English and Russian locales are bundled by default.
-	* Fixed weapons not spawning in TTT (by Anairkoen Schno)
-	* Blocked new ammo pickups (SMG grenades) from being pocketed in DarkRP
-	* Fixed networked menu not working in Local/P2P servers
-]]
-
-local function testFunc()
-end
-
-local my_path = debug.getinfo(testFunc)
-if my_path and type(my_path) == "table" and my_path.short_src then
-	my_path = my_path["short_src"]
-else
-	my_path = "legacy"
-end
-
-if TFA_BASE_VERSION then
-
-	if TFA_BASE_VERSION > version then
-		print("You have a newer, conflicting version of TFA Base.")
-		print("It's located at: " .. ( TFA_FILE_PATH or "" ) )
-		print("Contact the author of that pack, not TFA.")
-		do_load = false
-	elseif TFA_BASE_VERSION < version then
-		print("You have an older, conflicting version of TFA Base.")
-		print("It's located at: " .. ( TFA_FILE_PATH or "" ) )
-		print("Contact the author of that pack, not TFA.")
-	elseif TFA_BASE_VERSION == version then
-		print("You have an equal, conflicting version of TFA Base.")
-		print("It's located at: " .. ( TFA_FILE_PATH or "" ) )
-		print("Contact the author of that pack, not TFA.")
-	end
-
-end
+local version = 1.00
+local version_string = "1.0.0"
 
 if do_load then
-	-- luacheck: globals TFA_BASE_VERSION TFA_BASE_VERSION_STRING TFA_BASE_VERSION_CHANGES TFA_FILE_PATH
 	TFA_BASE_VERSION = version
 	TFA_BASE_VERSION_STRING = version_string
-	TFA_BASE_VERSION_CHANGES = changelog
-	TFA_FILE_PATH = my_path
 
 	TFA.Enum = TFA.Enum or {}
 
