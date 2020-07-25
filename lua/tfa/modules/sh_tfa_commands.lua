@@ -233,7 +233,7 @@ if GetConVar("sv_tfa_reloads_legacy") == nil then
 end
 
 if GetConVar("sv_tfa_fx_penetration_decal") == nil then
-	CreateReplConVar("sv_tfa_fx_penetration_decal", "1", "Enable decals on the other side of a penetrated object?")
+	CreateReplConVar("sv_tfa_fx_penetration_decal", "0", "Enable decals on the other side of a penetrated object?")
 end
 
 local cv_ironsights = GetConVar("sv_tfa_ironsights_enabled")

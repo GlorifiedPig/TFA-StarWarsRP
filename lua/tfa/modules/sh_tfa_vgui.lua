@@ -267,7 +267,7 @@ if CLIENT then
 		}
 
 		tfaOptionPerf.Options["#preset.default"] = {
-			sv_tfa_fx_penetration_decal = "1",
+			sv_tfa_fx_penetration_decal = "0",
 			cl_tfa_fx_impact_enabled = "1",
 			cl_tfa_fx_impact_ricochet_enabled = "1",
 			cl_tfa_fx_impact_ricochet_sparks = "20",
