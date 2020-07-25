@@ -52,9 +52,6 @@ SWEP.MoveSpeed = 0.9 --Multiply the player's movespeed by this.
 SWEP.IronSightsMoveSpeed = 0.8 --Multiply the player's movespeed by this when sighting.
 SWEP.IsMelee = true
 SWEP.AllowSprintAttack = true
---[[TTT CRAP]]
---
--- SWEP.Kind = WEAPON_EQUIP
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
 SWEP.Primary.ClipSize = -1

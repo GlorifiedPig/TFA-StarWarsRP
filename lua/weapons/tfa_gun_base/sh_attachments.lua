@@ -1,26 +1,6 @@
 
--- Copyright (c) 2018-2020 TFA Base Devs
+-- This will likely be refactored in the future. There might be a better method to completely remove attachments, but I do not want errors to be spammed.
 
--- Permission is hereby granted, free of charge, to any person obtaining a copy
--- of this software and associated documentation files (the "Software"), to deal
--- in the Software without restriction, including without limitation the rights
--- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
--- copies of the Software, and to permit persons to whom the Software is
--- furnished to do so, subject to the following conditions:
-
--- The above copyright notice and this permission notice shall be included in all
--- copies or substantial portions of the Software.
-
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
--- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
--- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
--- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
--- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
--- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
--- SOFTWARE.
-
-local ATT_DIMENSION
-local ATT_MAX_SCREEN_RATIO = 1 / 3
 local tableCopy = table.Copy
 SWEP.Attachments = {} --[MDL_ATTACHMENT] = = { offset = { 0, 0 }, atts = { "sample_attachment_1", "sample_attachment_2" }, sel = 1, order = 1 } --offset will move the offset the display from the weapon attachment when using CW2.0 style attachment display --atts is a table containing the visible attachments --sel allows you to have an attachment pre-selected, and is used internally by the base to show which attachment is selected in each category. --order is the order it will appear in the TFA style attachment menu
 SWEP.AttachmentCache = {} --["att_name"] = true
@@ -28,7 +8,6 @@ SWEP.AttachmentTableCache = {}
 SWEP.AttachmentDependencies = {} --{["si_acog"] = {"bg_rail"}}
 SWEP.AttachmentExclusions = {} --{ ["si_iron"] = {"bg_heatshield"} }
 SWEP.AttachmentTableOverride = {}
-local att_enabled_cv = GetConVar("sv_tfa_attachments_enabled")
 
 function SWEP:RemoveUnusedAttachments()
 	for k, v in pairs(self.Attachments) do
@@ -135,81 +114,11 @@ function SWEP:BuildAttachmentCache()
 end
 
 function SWEP:IsAttached(attn)
-	local v = self.AttachmentCache[attn]
-
-	if v then
-		return true
-	else
-		return false
-	end
+	return false
 end
 
-local tc
-
 function SWEP:CanAttach(attn)
-	local retVal = hook.Run("TFA_PreCanAttach", self, attn)
-	if retVal ~= nil then return retVal end
-
-	if not self.HasBuiltMutualExclusions then
-		tc = tableCopy(self.AttachmentExclusions)
-
-		for k, v in pairs(tc) do
-			if k ~= "BaseClass" then
-				for _, b in pairs(v) do
-					self.AttachmentExclusions[b] = self.AttachmentExclusions[b] or {}
-
-					if not table.HasValue(self.AttachmentExclusions[b]) then
-						self.AttachmentExclusions[b][#self.AttachmentExclusions[b] + 1] = k
-					end
-				end
-			end
-		end
-
-		self.HasBuiltMutualExclusions = true
-	end
-
-	if att_enabled_cv and (not att_enabled_cv:GetBool()) then return false end
-
-	if self.AttachmentExclusions[attn] then
-		for _, v in pairs(self.AttachmentExclusions[attn]) do
-			if self:IsAttached(v) then return false end
-		end
-	end
-
-	if self.AttachmentDependencies[attn] then
-		local t = self.AttachmentDependencies[attn]
-
-		if isstring(t) then
-			if t ~= "BaseClass" and not self:IsAttached(t) then return false end
-		elseif istable(t) then
-			t.type = t.type or "OR"
-
-			if t.type == "AND" then
-				for k, v in pairs(self.AttachmentDependencies[attn]) do
-					if k ~= "BaseClass" and k ~= "type" and not self:IsAttached(v) then return false end
-				end
-			else
-				local cnt = 0
-
-				for k, v in pairs(self.AttachmentDependencies[attn]) do
-					if k ~= "BaseClass" and k ~= "type" and self:IsAttached(v) then
-						cnt = cnt + 1
-					end
-				end
-
-				if cnt == 0 then return false end
-			end
-		end
-	end
-
-	local atTable = TFA.Attachments.Atts[attn]
-	if not atTable then return false end
-	if not atTable:CanAttach(self) then return false end
-
-	local retVal2 = hook.Run("TFA_CanAttach", self, attn)
-	if retVal2 ~= nil then return retVal2 end
-
-	return true
+	return false
 end
 
 function SWEP:GetStatRecursive(srctbl, stbl, ...)
