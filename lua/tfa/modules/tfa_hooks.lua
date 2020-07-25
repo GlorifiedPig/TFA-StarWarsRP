@@ -48,50 +48,6 @@ if SERVER then
 end
 
 --[[
-Hook: Tick
-Function: Inspection mouse support
-Used For: Enables and disables screen clicker
-]]
---
-if CLIENT then
-	local tfablurintensity
-	local its_old = 0
-	local ScreenClicker = false
-	local att_enabled_cv
-
-	hook.Add("Tick", "TFAInspectionScreenClicker", function()
-		if not att_enabled_cv then
-			att_enabled_cv = GetConVar("sv_tfa_attachments_enabled")
-		end
-
-		if not att_enabled_cv then return end
-		tfablurintensity = 0
-
-		if LocalPlayer():IsValid() and IsValid(LocalPlayer():GetActiveWeapon()) and att_enabled_cv:GetBool() then
-			local w = LocalPlayer():GetActiveWeapon()
-
-			if not w.Attachments then
-				tfablurintensity = 0
-			elseif table.Count(w.Attachments) <= 0 then
-				tfablurintensity = 0
-			else
-				tfablurintensity = w.Inspecting and 1 or 0
-			end
-		end
-
-		if tfablurintensity > its_old and not ScreenClicker then
-			gui.EnableScreenClicker(true)
-			ScreenClicker = true
-		elseif tfablurintensity < its_old and ScreenClicker then
-			gui.EnableScreenClicker(false)
-			ScreenClicker = false
-		end
-
-		its_old = tfablurintensity * 1
-	end)
-end
-
---[[
 Hook: PreRender
 Function: Weapon Logic
 Used For: Per-frame weapon "think" logic
